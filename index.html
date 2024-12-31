@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BNH ENIGMAS</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #00bfff;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 80%;
+            height: 100px;
+            background-color: #111;
+            color: #00bfff;
+            border: 1px solid #00bfff;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+        button {
+            background-color: #00bfff;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #008cba;
+        }
+        #output {
+            margin-top: 20px;
+            font-size: 1.5em;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h1>BNH ENIGMAS</h1>
+    <textarea id="input" placeholder="Digite seu texto ou código..."></textarea><br>
+    <button onclick="textToCode()">Texto para Código</button>
+    <button onclick="codeToText()">Código para Texto</button>
+    <div id="output"></div>
+
+    <script>
+        const mapping = {
+            'A': '*-', 'B': '+#', 'C': '@!', 'D': '&$', 'E': '%=', 'F': '^#',
+            'G': '/*', 'H': '//', 'I': '+*', 'J': '#>', 'K': '^+', 'L': '@>',
+            'M': '+!', 'N': '^>', 'O': '*/', 'P': '=! ', 'Q': '~^', 'R': '$>',
+            'S': '=>', 'T': '>@', 'U': '#+', 'V': '-%', 'W': '<!', 'X': '!=',
+            'Y': '>+', 'Z': '#^'
+        };
+
+        const reverseMapping = Object.fromEntries(
+            Object.entries(mapping).map(([key, value]) => [value, key])
+        );
+
+        function textToCode() {
+            const input = document.getElementById('input').value.toUpperCase();
+            let result = '';
+            for (let char of input) {
+                if (mapping[char]) {
+                    result += mapping[char];
+                } else {
+                    result += char;
+                }
+            }
+            document.getElementById('output').innerText = result;
+        }
+
+        function codeToText() {
+            const input = document.getElementById('input').value;
+            let result = '';
+            let buffer = '';
+            for (let char of input) {
+                buffer += char;
+                if (reverseMapping[buffer]) {
+                    result += reverseMapping[buffer];
+                    buffer = '';
+                }
+            }
+            document.getElementById('output').innerText = result || 'Código inválido';
+        }
+    </script>
+</body>
+</html>
